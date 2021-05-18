@@ -34,7 +34,7 @@ echo "Comments::checkPostComment => Expect: 1 ~ Return: ";
 print_r($ret); echo "\n";
 
 $ret = Comments::deletePostComment($manager, "post test");
-echo "Comments::deletePostComment => Expect: 1 ~ Return:";
+echo "Comments::deletePostComment => Expect: 1 ~ Return: ";
 print_r($ret); echo "\n";
 
 $ret = Comments::newPostComment($manager, "post test", "post hint");

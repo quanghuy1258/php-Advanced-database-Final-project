@@ -34,7 +34,7 @@ echo "Products::checkProduct => Expect: 1 ~ Return: ";
 print_r($ret); echo "\n";
 
 $ret = Products::deleteProduct($manager, "product test");
-echo "Products::deleteProduct => Expect: 1 ~ Return:";
+echo "Products::deleteProduct => Expect: 1 ~ Return: ";
 print_r($ret); echo "\n";
 
 $ret = Products::newProduct($manager, "product test", "product hint");
@@ -85,7 +85,7 @@ echo "removeProperty => Expect: 1 ~ Return: ";
 print_r($x->removeProperty([], "level_2"));
 echo "\n";
 
-echo "getDetail, fetchDetail, testTheSame => Expect: 1 ~ Return:\n";
+echo "getDetail, fetchDetail, testTheSame => Expect: 1 ~ Return: ";
 $t = new Products($manager, "product test");
 $t->fetchDetail();
 print_r(testTheSame($x->getDetail(), $t->getDetail())); echo "\n";

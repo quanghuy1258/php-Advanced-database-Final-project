@@ -26,7 +26,7 @@ echo "Properties::deletePropertyTree => Expect: 1 or nothing ~ Return: ";
 print_r($ret); echo "\n";
 
 $ret = Properties::newPropertyTree($manager, "test", "test hint");
-echo "Properties::newPropertyTree => Expect: 1 ~ Return:";
+echo "Properties::newPropertyTree => Expect: 1 ~ Return: ";
 print_r($ret); echo "\n";
 
 $ret = Properties::checkPropertyTree($manager, "test");
@@ -34,7 +34,7 @@ echo "Properties::checkPropertyTree => Expect: 1 ~ Return: ";
 print_r($ret); echo "\n";
 
 $ret = Properties::deletePropertyTree($manager, "test");
-echo "Properties::deletePropertyTree => Expect: 1 ~ Return:";
+echo "Properties::deletePropertyTree => Expect: 1 ~ Return: ";
 print_r($ret); echo "\n";
 
 $ret = Properties::newPropertyTree($manager, "test", "test hint");
