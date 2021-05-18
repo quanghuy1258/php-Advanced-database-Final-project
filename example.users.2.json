@@ -1,0 +1,21 @@
+{
+  "_id": "60a42714c45f3f512a478a63",
+  "userID": "user 2",
+  "information": {
+    "name": {
+      "value": "Mike",
+      "isRemoved": false
+    },
+    "sex": {
+      "value": "male",
+      "isRemoved": true
+    }
+  },
+  "hasMany": {
+    "order 1": true,
+    "order 2": true
+  },
+  "isRemoved": false,
+  "updatedTime": 1621370645
+}
+

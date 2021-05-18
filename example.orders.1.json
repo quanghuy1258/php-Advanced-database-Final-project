@@ -1,0 +1,10 @@
+{
+  "_id": "60a4271a55577668386ad4c2",
+  "orderID": "order 1",
+  "belongsTo": "user 1",
+  "information": {},
+  "hasMany": {},
+  "isRemoved": true,
+  "updatedTime": 1621370650
+}
+

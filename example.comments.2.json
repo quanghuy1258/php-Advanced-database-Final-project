@@ -1,0 +1,101 @@
+{
+  "_id": "60a4272b430b316a4c4506e3",
+  "postID": "post test",
+  "hint": "post hint (edited)",
+  "content": [
+    {
+      "comment": "Good",
+      "author": "Customer 1",
+      "replies": [],
+      "isRemoved": false,
+      "log": [
+        {
+          "comment": "Good",
+          "author": "Customer 1",
+          "time": 1621370667
+        }
+      ]
+    },
+    {
+      "comment": "Need improvement.\nUpdate: I just received the product yesterday with a small cute gift. Nice service.",
+      "author": "Customer 2",
+      "replies": [
+        {
+          "comment": "Can you explain more?",
+          "author": "Customer 3",
+          "replies": [
+            {
+              "comment": "I waited for a long time to get the product",
+              "author": "Customer 2",
+              "replies": [
+                {
+                  "comment": "Thank you",
+                  "author": "Customer 3",
+                  "replies": [],
+                  "isRemoved": false,
+                  "log": [
+                    {
+                      "comment": "Thank you",
+                      "author": "Customer 3",
+                      "time": 1621370667
+                    }
+                  ]
+                }
+              ],
+              "isRemoved": false,
+              "log": [
+                {
+                  "comment": "I waited for a long time to get the product",
+                  "author": "Customer 2",
+                  "time": 1621370667
+                }
+              ]
+            }
+          ],
+          "isRemoved": true,
+          "log": [
+            {
+              "comment": "Can you explain more?",
+              "author": "Customer 3",
+              "time": 1621370667
+            },
+            {
+              "state": "removed",
+              "by": "Customer 3",
+              "time": 1621370667
+            }
+          ]
+        },
+        {
+          "comment": "Thank you for your feedback",
+          "author": "Admin",
+          "replies": [],
+          "isRemoved": false,
+          "log": [
+            {
+              "comment": "Thank you for your feedback",
+              "author": "Admin",
+              "time": 1621370667
+            }
+          ]
+        }
+      ],
+      "isRemoved": false,
+      "log": [
+        {
+          "comment": "Need improvement",
+          "author": "Customer 2",
+          "time": 1621370667
+        },
+        {
+          "comment": "Need improvement.\nUpdate: I just received the product yesterday with a small cute gift. Nice service.",
+          "author": "Customer 2",
+          "time": 1621370667
+        }
+      ]
+    }
+  ],
+  "isRemoved": false,
+  "updatedTime": 1621370667
+}
+

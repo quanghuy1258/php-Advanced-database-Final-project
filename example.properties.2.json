@@ -1,0 +1,19 @@
+{
+  "_id": "60a42725cd94be05697a1dc3",
+  "propertyID": "test",
+  "hint": "edited hint",
+  "tree": {
+    "level_1": {
+      "hint": "this is level 1 (edited)",
+      "subproperties": {
+        "level_2": {
+          "hint": "this is level 2",
+          "subproperties": {}
+        }
+      }
+    }
+  },
+  "isRemoved": false,
+  "updatedTime": 1621370661
+}
+

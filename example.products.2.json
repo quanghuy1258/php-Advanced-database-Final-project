@@ -1,0 +1,92 @@
+{
+  "_id": "60a42720de31356acb3202c3",
+  "productID": "product 2",
+  "hint": "product hint (edited)",
+  "detail": {
+    "level_1": {
+      "hint": "this is level 1",
+      "isRemoved": false,
+      "log": [
+        {
+          "value": "value 1",
+          "time": 1621370656
+        }
+      ],
+      "subproperties": {},
+      "value": "value 1"
+    },
+    "level_2": {
+      "hint": "this is level 2",
+      "isRemoved": true,
+      "log": [
+        {
+          "value": "value 2",
+          "time": 1621370656
+        },
+        {
+          "state": "removed",
+          "time": 1621370656
+        }
+      ],
+      "subproperties": {
+        "level_2_1": {
+          "hint": "this is level 2_1",
+          "isRemoved": true,
+          "log": [
+            {
+              "value": "value 2_1",
+              "time": 1621370656
+            },
+            {
+              "state": "removed",
+              "time": 1621370656
+            }
+          ],
+          "subproperties": {
+            "level_2_1_1": {
+              "hint": "this is level 2_1_1 (edited)",
+              "isRemoved": true,
+              "log": [
+                {
+                  "value": "value 2_1_1",
+                  "time": 1621370656
+                },
+                {
+                  "value": "value 2_1_1 (edited)",
+                  "time": 1621370656
+                },
+                {
+                  "state": "removed",
+                  "time": 1621370656
+                }
+              ],
+              "subproperties": {},
+              "value": "value 2_1_1 (edited)"
+            }
+          },
+          "value": "value 2_1"
+        },
+        "level_2_2": {
+          "hint": "this is level 2_2",
+          "isRemoved": true,
+          "log": [
+            {
+              "value": "value 2_2",
+              "time": 1621370656
+            },
+            {
+              "state": "removed",
+              "time": 1621370656
+            }
+          ],
+          "subproperties": {},
+          "value": "value 2_2"
+        }
+      },
+      "value": "value 2"
+    }
+  },
+  "isRemoved": false,
+  "updatedTime": 1621370656
+}
+

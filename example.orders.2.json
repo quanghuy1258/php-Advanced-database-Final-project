@@ -1,0 +1,27 @@
+{
+  "_id": "60a4271a55577668386ad4c3",
+  "orderID": "order 2",
+  "belongsTo": "user 2",
+  "information": {
+    "date": {
+      "value": "02/09/2000",
+      "isRemoved": true
+    },
+    "sum": {
+      "value": "1000000",
+      "isRemoved": false
+    }
+  },
+  "hasMany": {
+    "product 1": [
+      "value 1_1",
+      "value 1_2"
+    ],
+    "product 2": [
+      "value 2"
+    ]
+  },
+  "isRemoved": false,
+  "updatedTime": 1621370650
+}
+
