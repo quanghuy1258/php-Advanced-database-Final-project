@@ -28,11 +28,11 @@ echo "Users::newUser => Expect: 1 ~ Return: ";
 print_r($ret); echo "\n";
 
 $ret = Users::checkUser($manager, "user 1", false);
-echo "User::checkUser => Expect: 1 ~ Return: ";
+echo "Users::checkUser => Expect: 1 ~ Return: ";
 print_r($ret); echo "\n";
 
 $ret = Users::checkUser($manager, "user 1", true);
-echo "User::checkUser + forceExists => Expect: 1 ~ Return: ";
+echo "Users::checkUser + forceExists => Expect: 1 ~ Return: ";
 print_r($ret); echo "\n";
 
 $ret = Users::deleteUser($manager, "user 1");
