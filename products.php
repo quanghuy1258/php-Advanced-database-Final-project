@@ -27,7 +27,7 @@ class Products {
   // Fetch the detail of the product
   function fetchDetail() {
     // Check if the product exists
-    $ret = self::checkProduct($this->_manager, $this->_productID);
+    $ret = self::checkProduct($this->_manager, $this->_productID, true);
     if (is_null($ret) or !$ret) {
       $this->_detail = array();
       $this->_isFetch = false;
@@ -37,7 +37,7 @@ class Products {
     // Check if the product is outdated
     if ($this->_isFetch) {
       try {
-        $query = new MongoDB\Driver\Query(["productID" => $this->_productID, "isRemoved" => false],
+        $query = new MongoDB\Driver\Query(["productID" => $this->_productID],
                                           ["projection" => ["updatedTime" => 1]]);
         $cursor = $this->_manager->executeQuery(self::DB_COLLECTION_NAME, $query);
         $detail = $cursor->toArray()[0];
@@ -54,7 +54,7 @@ class Products {
 
     // Fetch the new/updated product
     try {
-      $query = new MongoDB\Driver\Query(["productID" => $this->_productID, "isRemoved" => false]);
+      $query = new MongoDB\Driver\Query(["productID" => $this->_productID]);
       $cursor = $this->_manager->executeQuery(self::DB_COLLECTION_NAME, $query);
       $this->_detail = $cursor->toArray()[0];
       self::cleanDetail($this->_detail);
@@ -86,10 +86,12 @@ class Products {
     $current = &$this->_detail["detail"];
     $path = "detail";
     foreach ($arrayPropertiesAsPath as $property) {
-      if (array_key_exists($property, $current)) {
-        $path .= "." . $property . ".subproperties";
-        $current = &$current[$property]["subproperties"];
-      } else return false;
+      if (!array_key_exists($property, $current))
+        return false;
+      if ($current[$property]["isRemoved"])
+        return false;
+      $path .= "." . $property . ".subproperties";
+      $current = &$current[$property]["subproperties"];
     }
 
     $newLog = ["value" => $value, "time" => time()];
@@ -100,7 +102,7 @@ class Products {
       // Recreate a deleted property
       try {
         $bulk = new MongoDB\Driver\BulkWrite;
-        $bulk->update(["productID" => $this->_productID, "isRemoved" => false],
+        $bulk->update(["productID" => $this->_productID],
                       ['$set' => [$path . "." . $name . ".hint" => $hint,
                                   $path . "." . $name . ".value" => $value,
                                   $path . "." . $name . ".isRemoved" => false,
@@ -123,7 +125,7 @@ class Products {
       // Add a new property
       try {
         $bulk = new MongoDB\Driver\BulkWrite;
-        $bulk->update(["productID" => $this->_productID, "isRemoved" => false],
+        $bulk->update(["productID" => $this->_productID],
                       ['$set' => [$path . "." . $name . ".subproperties" => new \stdClass,
                                   $path . "." . $name . ".hint" => $hint,
                                   $path . "." . $name . ".value" => $value,
@@ -154,10 +156,12 @@ class Products {
     $current = &$this->_detail["detail"];
     $path = "detail";
     foreach ($arrayPropertiesAsPath as $property) {
-      if (array_key_exists($property, $current)) {
-        $path .= "." . $property . ".subproperties";
-        $current = &$current[$property]["subproperties"];
-      } else return false;
+      if (!array_key_exists($property, $current))
+        return false;
+      if ($current[$property]["isRemoved"])
+        return false;
+      $path .= "." . $property . ".subproperties";
+      $current = &$current[$property]["subproperties"];
     }
 
     // Check if the property exists
@@ -168,7 +172,7 @@ class Products {
     try {
       $newLog = ["value" => $value, "time" => time()];
       $bulk = new MongoDB\Driver\BulkWrite;
-      $bulk->update(["productID" => $this->_productID, "isRemoved" => false],
+      $bulk->update(["productID" => $this->_productID],
                     ['$set' => [$path . "." . $name . ".hint" => $hint,
                                 $path . "." . $name . ".value" => $value,
                                 "updatedTime" => time()],
@@ -224,7 +228,7 @@ class Products {
     $setArray["updatedTime"] = time();
     try {
       $bulk = new MongoDB\Driver\BulkWrite;
-      $bulk->update(["productID" => $this->_productID, "isRemoved" => false],
+      $bulk->update(["productID" => $this->_productID],
                     ['$set' => $setArray,
                      '$push' => $pushArray],
                     ["multi" => true]);
@@ -260,7 +264,7 @@ class Products {
   // Create a new product
   static function newProduct($mongoManager, $productID, $hint) {
     // Check if the product exists
-    $ret = self::checkProduct($mongoManager, $productID);
+    $ret = self::checkProduct($mongoManager, $productID, false);
     if (is_null($ret) or $ret)
       return null;
 
@@ -281,6 +285,11 @@ class Products {
   }
   // Remove a product by marking it as deleted
   static function deleteProduct($mongoManager, $productID) {
+    // Check if the product exists
+    if (!self::checkProduct($mongoManager, $productID, true))
+      return true;
+
+    // Remove a product
     try {
       $bulk = new MongoDB\Driver\BulkWrite;
       $bulk->update(["productID" => $productID, "isRemoved" => false],
@@ -293,11 +302,13 @@ class Products {
       return null;
     }
   }
-  // List all products: return (productID, hint) pairs
+  // List all products: return (productID, hint, isRemoved) tuples
   static function listProduct($mongoManager) {
     try {
-      $query = new MongoDB\Driver\Query(["isRemoved" => false],
-                                        ["projection" => ["productID" => 1, "hint" => 1]]);
+      $query = new MongoDB\Driver\Query([],
+                                        ["projection" => ["productID" => 1,
+                                                          "hint" => 1,
+                                                          "isRemoved" => 1]]);
       $cursor = $mongoManager->executeQuery(self::DB_COLLECTION_NAME, $query);
       $detail = $cursor->toArray();
       self::cleanDetail($detail);
@@ -308,11 +319,18 @@ class Products {
     }
   }
   // Check if productID exists or not
-  static function checkProduct($mongoManager, $productID) {
+  static function checkProduct($mongoManager, $productID, $forceExists) {
     try {
-      $query = new MongoDB\Driver\Query(["productID" => $productID, "isRemoved" => false],
-                                        ["projection" => ["_id" => 1]]);
+      $query = new MongoDB\Driver\Query(["productID" => $productID],
+                                        ["projection" => ["isRemoved" => 1]]);
       $cursor = $mongoManager->executeQuery(self::DB_COLLECTION_NAME, $query);
+      if ($forceExists) {
+        $result = $cursor->toArray();
+        if (sizeof($result) == 0)
+          return false;
+        $result = (array)$result[0];
+        return !$result["isRemoved"];
+      }
       return sizeof($cursor->toArray()) > 0;
     } catch (Exception $e) {
       echo "<exception>\n"; print_r($e); echo "</exception>\n";

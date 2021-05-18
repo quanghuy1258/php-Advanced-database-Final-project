@@ -241,6 +241,11 @@ class Comments {
   }
   // Remove a comment log by marking it as deleted
   static function deletePostComment($mongoManager, $postID) {
+    // Check if the comment log exists
+    if (!self::checkPostComment($mongoManager, $postID))
+      return true;
+
+    // Remove a comment log
     try {
       $bulk = new MongoDB\Driver\BulkWrite;
       $bulk->update(["postID" => $postID, "isRemoved" => false],

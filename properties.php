@@ -193,6 +193,11 @@ class Properties {
   }
   // Remove a property tree by marking it as deleted
   static function deletePropertyTree($mongoManager, $propertyID) {
+    // Check if the property tree exists
+    if (!self::checkPropertyTree($mongoManager, $propertyID))
+      return true;
+
+    // Remove a property tree
     try {
       $bulk = new MongoDB\Driver\BulkWrite;
       $bulk->update(["propertyID" => $propertyID, "isRemoved" => false],

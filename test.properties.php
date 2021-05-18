@@ -14,15 +14,13 @@ function testTheSame($x, $y) {
     return false;
   if ($x["isRemoved"] != $y["isRemoved"])
     return false;
-  if ($x["updatedTime"] != $y["updatedTime"])
-    return false;
   return true;
 }
 
 $manager = createMongoManagerInstance();
 
 $ret = Properties::deletePropertyTree($manager, "test");
-echo "Properties::deletePropertyTree => Expect: 1 or nothing ~ Return: ";
+echo "Properties::deletePropertyTree => Expect: 1 ~ Return: ";
 print_r($ret); echo "\n";
 
 $ret = Properties::newPropertyTree($manager, "test", "test hint");

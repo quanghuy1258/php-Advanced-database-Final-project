@@ -14,30 +14,32 @@ function testTheSame($x, $y) {
     return false;
   if ($x["isRemoved"] != $y["isRemoved"])
     return false;
-  if ($x["updatedTime"] != $y["updatedTime"])
-    return false;
   return true;
 }
 
 $manager = createMongoManagerInstance();
 
-$ret = Products::deleteProduct($manager, "product test");
-echo "Products::deleteProduct => Expect: 1 or nothing ~ Return: ";
-print_r($ret); echo "\n";
-
-$ret = Products::newProduct($manager, "product test", "product hint");
-echo "Products::newProduct => Expect: 1 ~ Return: ";
-print_r($ret); echo "\n";
-
-$ret = Products::checkProduct($manager, "product test");
-echo "Products::checkProduct => Expect: 1 ~ Return: ";
-print_r($ret); echo "\n";
-
-$ret = Products::deleteProduct($manager, "product test");
+$ret = Products::deleteProduct($manager, "product 0");
 echo "Products::deleteProduct => Expect: 1 ~ Return: ";
 print_r($ret); echo "\n";
 
-$ret = Products::newProduct($manager, "product test", "product hint");
+$ret = Products::newProduct($manager, "product 1", "product hint");
+echo "Products::newProduct => Expect: 1 ~ Return: ";
+print_r($ret); echo "\n";
+
+$ret = Products::checkProduct($manager, "product 1", false);
+echo "Products::checkProduct => Expect: 1 ~ Return: ";
+print_r($ret); echo "\n";
+
+$ret = Products::checkProduct($manager, "product 1", true);
+echo "Products::checkProduct + forceExists => Expect: 1 ~ Return: ";
+print_r($ret); echo "\n";
+
+$ret = Products::deleteProduct($manager, "product 1");
+echo "Products::deleteProduct => Expect: 1 ~ Return: ";
+print_r($ret); echo "\n";
+
+$ret = Products::newProduct($manager, "product 2", "product hint");
 echo "Products::newProduct => Expect: 1 ~ Return: ";
 print_r($ret); echo "\n";
 
@@ -45,7 +47,7 @@ $ret = Products::listProduct($manager);
 echo "Products::listProduct => Expect: All products ~ Return:\n";
 print_r($ret);
 
-$x = new Products($manager, "product test");
+$x = new Products($manager, "product 2");
 echo "fetchTree => Expect: 1 ~ Return: ";
 print_r($x->fetchDetail()); echo "\n";
 echo "getProductID, getDetail, getIsFetch => Expect: All information ~ Return:\n";
@@ -66,7 +68,7 @@ print_r($x->addProperty(["level_2", "level_2_1"], "level_2_1_1", "this is level 
 echo "\n";
 
 echo "getDetail, fetchDetail, testTheSame => Expect: 1 ~ Return: ";
-$y = new Products($manager, "product test");
+$y = new Products($manager, "product 2");
 $y->fetchDetail();
 print_r(testTheSame($x->getDetail(), $y->getDetail())); echo "\n";
 print_r($y->getDetail());
@@ -76,7 +78,7 @@ print_r($x->editProperty(["level_2", "level_2_1"], "level_2_1_1", "this is level
 echo "\n";
 
 echo "getDetail, fetchDetail, testTheSame => Expect: 1 ~ Return: ";
-$z = new Products($manager, "product test");
+$z = new Products($manager, "product 2");
 $z->fetchDetail();
 print_r(testTheSame($x->getDetail(), $z->getDetail())); echo "\n";
 print_r($z->getDetail());
@@ -86,7 +88,7 @@ print_r($x->removeProperty([], "level_2"));
 echo "\n";
 
 echo "getDetail, fetchDetail, testTheSame => Expect: 1 ~ Return: ";
-$t = new Products($manager, "product test");
+$t = new Products($manager, "product 2");
 $t->fetchDetail();
 print_r(testTheSame($x->getDetail(), $t->getDetail())); echo "\n";
 print_r($t->getDetail());
