@@ -101,9 +101,8 @@ class banhang{
 	{
 		$user = new Users($this->mongoManager, $id);
 		$user->fetchInformation();
-		$properties = ["HoTen", "Email", "DiaChi", "DienThoai", "GioiTinh"];
 		$account = [];
-		foreach ($properties as $property)
+		foreach (array_keys($user->getInformation()["information"]) as $property)
 			$account[$property] = $user->getInformation()["information"][$property]["value"];
 		return $account;
 	}
