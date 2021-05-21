@@ -26,7 +26,7 @@ class banhang{
 		if ($kq["type"] == "sql")
 			return mysqli_fetch_assoc($kq["result"]);
 		if ($kq["type"] == "mongo")
-			return $kq["result"];
+			return next($kq["result"]);
 	}
 	public function insert_id()
 	{
@@ -104,7 +104,7 @@ class banhang{
 		$account = ["idUser" => $id];
 		foreach (array_keys($user->getInformation()["information"]) as $property)
 			$account[$property] = $user->getInformation()["information"][$property]["value"];
-		$result = ["type" => "mongo", "result" => $account];
+		$result = ["type" => "mongo", "result" => [null, $account]];
 		return $result;
 	}
 	
