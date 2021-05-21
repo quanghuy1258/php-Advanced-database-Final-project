@@ -93,8 +93,19 @@ class banhang{
 	public function checkLogin($email,$pass)
 	{
 		$pass=md5($pass);
-		$kq=$this->query("select * from users where Email='$email' and Password='$pass' and active=0");
-		return $kq;
+		$query = new MongoDB\Driver\Query(["information.Email.value" => $email,
+		                                   "information.Password.value" => $pass,
+		                                   "isRemoved" => false],
+		                                   ["projection" => ["userID" => 1]]);
+		$cursor = $this->mongoManager->executeQuery(Users::DB_COLLECTION_NAME, $query);
+		$id = $cursor->toArray()[0]->userID;
+		$user = new Users($this->mongoManager, $id);
+		$user->fetchInformation();
+		$account = ["idUser" => $id];
+		foreach (array_keys($user->getInformation()["information"]) as $property)
+			$account[$property] = $user->getInformation()["information"][$property]["value"];
+		$result = ["type" => "mongo", "result" => $account];
+		return $result;
 	}
 	
 	public function getAccount($id)
