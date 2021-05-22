@@ -26,10 +26,10 @@ $totalComment = sizeof($content);
 <hr>
 <?php if ($totalComment > 0): ?>
 <?php foreach ($content as $comment): ?>
-<div class="big_sec left">
-<h6 class="bold"><?php echo $comment["author"]; ?></h6>
-<p><?php echo $comment["comment"]; ?></p>
-</div>
+<ul style="list-style: none; margin-left: 20px;">
+<li class="bold" ><?php echo $comment["author"]; ?> (<?php echo date("d-m-Y H:i:s", end($comment["log"])["time"]); ?>)</li>
+<li><?php echo $comment["comment"]; ?></li>
+</ul>
 <?php endforeach ?>
 <?php else: ?>
 	<h2>Hãy là người đầu tiên bình luận sản phẩm này.</h2>
